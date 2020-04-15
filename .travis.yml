@@ -1,0 +1,37 @@
+language: generic 
+sudo: required
+services:
+  - docker
+
+
+before_install:
+  - docker build -t candrieu/react-test -f Dockerfile.dev .
+
+
+script:
+  - docker run -e CI=true candrieu/react-test npm run test
+
+after_success:
+  - docker build -t candrieu/multi-client ./client
+  - docker build -t candrieu/multi-nginx ./nginx
+  - docker build -t candrieu/multi-server ./server
+  - docker build -t candrieu/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push candrieu/multi-client
+  - docker push candrieu/multi-nginx
+  - docker push candrieu/multi-server
+  - docker push candrieu/multi-worker
+
+#deploy:
+#  provider: elasticbeanstalk
+#  region: "eu-west-3"
+#  app: "docker"
+#  env: "Docker-env"
+#  bucket_name: "elasticbeanstalk-eu-west-3-167754835103"
+#  bucket_path: "docker"
+#  on:
+#    branch: master
+#  access_key_id: $AWS_ACCESS_KEY
+#  secret_access_key: $AWS_SECRET_KEY
