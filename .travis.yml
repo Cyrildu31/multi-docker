@@ -24,6 +24,9 @@ after_success:
   - docker push andrieucyril31/multi-server
   - docker push andrieucyril31/multi-worker
 
+after_failure:
+  - cat MSBuild_*.failure.txt
+
 #deploy:
 #  provider: elasticbeanstalk
 #  region: "eu-west-3"
