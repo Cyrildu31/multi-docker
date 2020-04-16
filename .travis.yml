@@ -28,6 +28,7 @@ after_failure:
   - cat MSBuild_*.failure.txt
 
 deploy:
+  edge: true
   provider: elasticbeanstalk
   region: "eu-west-3"
   app: "multi-docker"
