@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\client"
   ],
-  "SelectedNode": "\\.travis.yml",
+  "SelectedNode": "\\client\\Dockerfile",
   "PreviewInSolutionExplorer": false
 }
